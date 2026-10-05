@@ -1,0 +1,12 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap auth-box">
+    <h1>{{ tr('Login') }}</h1>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>{{ tr('Email') }}<input type="email" name="email" required></label>
+        <label>{{ tr('Password') }}<input type="password" name="password" required></label>
+        <button type="submit">{{ tr('Login') }}</button>
+    </form>
+</section>
+{% endblock %}

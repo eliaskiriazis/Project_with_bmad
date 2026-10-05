@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "bmad": {
+      "source": "bmad-code-org/BMAD-METHOD",
+      "sourceType": "github",
+      "skillPath": "skills/bmad/SKILL.md",
+      "computedHash": "5bc23cf125a65f6bd98fe5dbf8d8d9a63c734c5949a7748d37ae6c925b4a892b"
+    },
+    "bmad-build": {
+      "source": "bmad-code-org/BMAD-METHOD",
+      "sourceType": "github",
+      "skillPath": "skills/bmad-build/SKILL.md",
+      "computedHash": "dcf27330d03105d748f1c2b2979ca134fe6022ae67d7deb0b238e123f68ceabb"
+    },
+    "bmod-core-tools": {
+      "source": "bmad-code-org/BMAD-METHOD",
+      "sourceType": "github",
+      "skillPath": "skills/bmod-core-tools/SKILL.md",
+      "computedHash": "eaaeb0a6858d9cf293b86c7b57460cfa55300fa1508bf2cee4ef0e4df8299d18"
+    }
+  }
+}

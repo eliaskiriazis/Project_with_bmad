@@ -1,0 +1,39 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap">
+    <h1>{{ tr('Order status') }} #{{ order.id }}</h1>
+    <p>{{ tr('Order status') }}: {{ tr(order.status|replace('_', ' ')|capitalize) }}</p>
+    <p>{{ tr('Total') }}: €{{ '%.2f'|format(order.total_cents / 100) }}</p>
+    {% if current_user.id == order.seller_id and order.shipping_details %}
+        <h2>{{ tr('Shipping address') }}</h2>
+        <pre>{{ order.shipping_details }}</pre>
+    {% endif %}
+    {% if current_user.id == order.seller_id and order.status == 'paid' %}
+        <form method="POST" action="{{ url_for('orders.update_order_status', order_id=order.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% if order.fulfillment_method == 'shipping' %}
+                <input type="hidden" name="status" value="shipped"><button type="submit">{{ tr('Mark as shipped') }}</button>
+            {% else %}
+                <input type="hidden" name="status" value="ready_for_pickup"><button type="submit">{{ tr('Mark ready for pickup') }}</button>
+            {% endif %}
+        </form>
+    {% elif current_user.id == order.buyer_id and order.status in ('shipped', 'ready_for_pickup') %}
+        <form method="POST" action="{{ url_for('orders.update_order_status', order_id=order.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="status" value="completed"><button type="submit">{{ tr('Mark completed') }}</button>
+        </form>
+    {% endif %}
+    <div class="message-panel">
+        {% for msg in order.messages %}
+            <div class="message">{{ msg.body }}</div>
+        {% endfor %}
+    </div>
+    {% if current_user.is_authenticated %}
+        <form method="POST" action="{{ url_for('messaging.send_message', order_id=order.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <textarea name="body" required maxlength="4000"></textarea>
+            <button type="submit">{{ tr('Send message') }}</button>
+        </form>
+    {% else %}<p>{{ tr('No in-app access is available for guest orders. Updates are sent by email.') }}</p>{% endif %}
+</section>
+{% endblock %}

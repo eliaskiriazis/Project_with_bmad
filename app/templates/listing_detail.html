@@ -1,0 +1,39 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap listing-detail">
+    {% if listing.is_demo %}
+        <p class="demo-badge detail-demo-badge">{{ tr('Demo listing · Not for sale') }}</p>
+    {% endif %}
+    <h1>{{ listing.title }}</h1>
+    <p>{{ listing.brand }} · {{ listing.model }} · {{ tr(listing.condition) }}</p>
+    <p>€{{ '%.2f'|format(listing.price_cents / 100) }}</p>
+    <p>{{ tr(listing.fulfillment|replace('_', ' ')|capitalize) }}
+        {% if listing.fulfillment != 'pickup' %} · {{ tr('Shipping fee') }}: €{{ '%.2f'|format(listing.shipping_fee_cents / 100) }}{% endif %}
+    </p>
+    <p>{{ listing.description }}</p>
+    {% if listing.photo_list %}
+        <div class="listing-photos">
+            {% for photo in listing.photo_list %}
+                {% if listing.is_demo %}
+                    <img src="{{ url_for('static', filename=photo) }}" alt="{{ listing.title }}">
+                {% else %}
+                    <img src="{{ url_for('uploaded_file', filename=photo) }}" alt="{{ listing.title }}">
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if not listing.is_demo %}
+        <a href="{{ url_for('orders.checkout', listing_id=listing.id) }}" class="primary-button">{{ tr('Checkout') }}</a>
+        <form method="POST" action="{{ url_for('listings.report_listing', listing_id=listing.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>{{ tr('Report reason') }}<textarea name="reason" maxlength="2000" required></textarea></label>
+            <button type="submit">{{ tr('Report listing') }}</button>
+        </form>
+    {% else %}
+        <p class="browse-only-note">{{ tr('This curated demo is here to explore, not to buy.') }}</p>
+        <p class="image-credits">
+            <a href="{{ url_for('static', filename='images/demos/ATTRIBUTION.md') }}">{{ tr('Image credits & license details') }}</a>
+        </p>
+    {% endif %}
+</section>
+{% endblock %}

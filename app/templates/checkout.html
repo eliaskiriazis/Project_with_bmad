@@ -1,0 +1,33 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap">
+    <h1>{{ tr('Checkout') }}</h1>
+    <p class="notice">{{ tr('Test-mode checkout only. No real payments are processed; live payments are not enabled.') }}</p>
+    <p>{{ tr('Item') }}: {{ listing.title }}</p>
+    <section id="checkout-summary" data-item-price="{{ listing.price_cents }}" data-shipping-fee="{{ listing.shipping_fee_cents }}">
+        <p>{{ tr('Item price') }}: €{{ '%.2f'|format(listing.price_cents / 100) }}</p>
+        {% if listing.fulfillment != 'pickup' %}<p>{{ tr('Shipping fee') }}: €{{ '%.2f'|format(listing.shipping_fee_cents / 100) }}</p>{% endif %}
+        <p>{{ tr('Total') }}: <strong id="checkout-total">€{{ '%.2f'|format((listing.price_cents + listing.shipping_fee_cents) / 100) }}</strong></p>
+    </section>
+    {% if current_user.is_authenticated %}
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            {% if listing.fulfillment == 'shipping_or_pickup' %}
+                <label>{{ tr('Fulfillment') }}<select name="fulfillment_method" required><option value="shipping">{{ tr('Shipping') }}</option><option value="pickup">{{ tr('Pickup') }}</option></select></label>
+            {% elif listing.fulfillment == 'shipping' %}<input type="hidden" name="fulfillment_method" value="shipping">
+            {% else %}<input type="hidden" name="fulfillment_method" value="pickup">{% endif %}
+            <button type="submit">{{ tr('Continue to payment') }}</button>
+        </form>
+    {% else %}
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>{{ tr('Guest email') }}<input type="email" name="guest_email" required></label>
+            {% if listing.fulfillment == 'shipping_or_pickup' %}
+                <label>{{ tr('Fulfillment') }}<select name="fulfillment_method" required><option value="shipping">{{ tr('Shipping') }}</option><option value="pickup">{{ tr('Pickup') }}</option></select></label>
+            {% elif listing.fulfillment == 'shipping' %}<input type="hidden" name="fulfillment_method" value="shipping">
+            {% else %}<input type="hidden" name="fulfillment_method" value="pickup">{% endif %}
+            <button type="submit">{{ tr('Continue to payment') }}</button>
+        </form>
+    {% endif %}
+</section>
+{% endblock %}

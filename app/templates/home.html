@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="marketplace wrap">
+    <div class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">{{ tr('The players’ marketplace') }}</p>
+            <h1>{{ tr('Find your next sound.') }}</h1>
+            <p class="hero-description">{{ tr('A considered collection of electric guitars, chosen for the next chapter.') }}</p>
+        </div>
+        <div class="hero-mark" aria-hidden="true"><span>G</span><i></i></div>
+        <div class="hero-note">
+            <span class="hero-note-line"></span>
+            <span>{{ tr('Good instruments. New stories.') }}</span>
+        </div>
+    </div>
+
+    <section class="browse-section" aria-labelledby="browse-heading">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">{{ tr('The edit') }}</p>
+                <h2 id="browse-heading">{{ tr('Browse guitars') }}</h2>
+            </div>
+            <p class="section-caption">{{ tr('Explore the demo collection or search current listings.') }}</p>
+        </div>
+
+        <form method="GET" action="{{ url_for('home') }}" class="search-form">
+            <label>
+                <span>{{ tr('Keyword') }}</span>
+                <input type="search" name="keyword" value="{{ keyword or '' }}" placeholder="{{ tr('Keyword') }}">
+            </label>
+            <label>
+                <span>{{ tr('Brand') }}</span>
+                <input type="text" name="brand" value="{{ brand or '' }}" placeholder="{{ tr('Brand') }}">
+            </label>
+            <label>
+                <span>{{ tr('Condition') }}</span>
+                <input type="text" name="condition" value="{{ condition or '' }}" placeholder="{{ tr('Condition') }}">
+            </label>
+            <label>
+                <span>{{ tr('Fulfillment') }}</span>
+                <input type="text" name="fulfillment" value="{{ fulfillment or '' }}" placeholder="{{ tr('Fulfillment') }}">
+            </label>
+            <label>
+                <span>{{ tr('Max price') }}</span>
+                <input type="number" min="0" step="0.01" name="max_price" value="{{ max_price or '' }}" placeholder="{{ tr('Max price') }}">
+            </label>
+            <button type="submit">{{ tr('Search') }} <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <div class="grid">
+            {% for listing in demo_listings %}
+                <article class="card demo-card">
+                    <a class="card-image-link" href="{{ url_for('listings.demo_listing_detail', slug=listing.slug) }}" aria-label="{{ tr('View listing') }}: {{ listing.title }}">
+                        <img class="card-image" src="{{ url_for('static', filename=listing.photo_list[0]) }}" alt="{{ listing.title }}">
+                    </a>
+                    <div class="card-content">
+                        <p class="demo-badge">{{ tr('Demo only') }}</p>
+                        <p class="card-brand">{{ listing.brand }} <span>·</span> {{ listing.model }}</p>
+                        <h3>{{ listing.title }}</h3>
+                        <div class="card-meta">
+                            <span>{{ tr(listing.condition) }}</span>
+                            <span>€{{ '%.2f'|format(listing.price_cents / 100) }}</span>
+                        </div>
+                        <a class="card-link" href="{{ url_for('listings.demo_listing_detail', slug=listing.slug) }}">{{ tr('View listing') }} <span aria-hidden="true">↗</span></a>
+                    </div>
+                </article>
+            {% endfor %}
+            {% for listing in listings %}
+                <article class="card">
+                    {% if listing.photo_list %}
+                        <img class="card-image" src="{{ url_for('uploaded_file', filename=listing.photo_list[0]) }}" alt="{{ listing.title }}">
+                    {% endif %}
+                    <div class="card-content">
+                        <p class="card-brand">{{ listing.brand }} <span>·</span> {{ listing.model }}</p>
+                        <h3>{{ listing.title }}</h3>
+                        <div class="card-meta">
+                            <span>{{ tr(listing.condition) }}</span>
+                            <span>€{{ '%.2f'|format(listing.price_cents / 100) }}</span>
+                        </div>
+                        <a class="card-link" href="{{ url_for('listings.listing_detail', listing_id=listing.id) }}">{{ tr('View listing') }} <span aria-hidden="true">↗</span></a>
+                    </div>
+                </article>
+            {% endfor %}
+            {% if not demo_listings and not listings %}<p class="empty-state">{{ tr('No listings found.') }}</p>{% endif %}
+        </div>
+        <p class="image-credits">
+            <a href="{{ url_for('static', filename='images/demos/ATTRIBUTION.md') }}">{{ tr('Image credits & license details') }}</a>
+        </p>
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap auth-box">
+    <h1>{{ tr('Register') }}</h1>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>{{ tr('First name') }}<input type="text" name="first_name" required></label>
+        <label>{{ tr('Last name') }}<input type="text" name="last_name" required></label>
+        <label>{{ tr('Email') }}<input type="email" name="email" required></label>
+        <label>{{ tr('Password') }}<input type="password" name="password" minlength="8" required></label>
+        <button type="submit">{{ tr('Register') }}</button>
+    </form>
+</section>
+{% endblock %}

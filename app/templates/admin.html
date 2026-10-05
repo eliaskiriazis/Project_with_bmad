@@ -1,0 +1,14 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap">
+    <h1>{{ tr('Admin moderation') }}</h1>
+    {% for report in reports %}
+        <div class="report-box">
+            <p>{{ report.reason }}</p>
+            <form method="POST" action="{{ url_for('admin.hide_listing', report_id=report.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">{{ tr('Hide listing') }}</button></form>
+            <form method="POST" action="{{ url_for('admin.suspend_seller', report_id=report.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">{{ tr('Suspend seller') }}</button></form>
+        </div>
+    {% endfor %}
+    {% if not reports %}<p>{{ tr('No reports to review.') }}</p>{% endif %}
+</section>
+{% endblock %}

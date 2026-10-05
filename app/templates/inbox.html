@@ -1,0 +1,13 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<section class="wrap">
+    <h1>{{ tr('Inbox') }}</h1>
+    {% for msg in incoming %}
+        <div class="message-item">
+            <p><a href="{{ url_for('orders.order_detail', order_id=msg.order_id) }}">Order #{{ msg.order_id }}</a> · {{ msg.sender.first_name }}</p>
+            <p>{{ msg.body }}</p>
+            <small>{{ msg.created_at }}</small>
+        </div>
+    {% else %}<p>{{ tr('No messages yet.') }}</p>{% endfor %}
+</section>
+{% endblock %}

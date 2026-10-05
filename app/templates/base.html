@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html lang="{{ session.get('lang', 'en') }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ tr('Guitar Marketplace') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand"><a href="{{ url_for('home') }}">{{ tr('Guitar Marketplace') }}</a></div>
+        <nav>
+            <a href="{{ url_for('home') }}">{{ tr('Browse') }}</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('listings.sell_listing') }}">{{ tr('Sell') }}</a>
+                <a href="{{ url_for('messaging.inbox') }}">{{ tr('Inbox') }}</a>
+                <a href="{{ url_for('notifications.notifications') }}">{{ tr('Notifications') }}</a>
+                <a href="{{ url_for('dashboard') }}">{{ tr('Dashboard') }}</a>
+                <form method="post" action="{{ url_for('auth.logout') }}" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit">{{ tr('Logout') }}</button>
+                </form>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">{{ tr('Login') }}</a>
+                <a href="{{ url_for('auth.register') }}">{{ tr('Register') }}</a>
+            {% endif %}
+            <a href="{{ url_for('set_language_route', lang='en') }}" lang="en">EN</a>
+            <a href="{{ url_for('set_language_route', lang='el') }}" lang="el">ΕΛ</a>
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ tr(message) }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
