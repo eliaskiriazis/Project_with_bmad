@@ -75,6 +75,8 @@ context: []
 
 ## Review Triage Log
 
+- **false** — `app/static/css/style.css`: the reported later `.home-page .search-form` override does not declare `grid-template-columns`; the existing `@media (max-width: 980px)` and `@media (max-width: 640px)` rules therefore remain effective for the homepage.
+
 ## Design Notes
 
 Keep the homepage editorial rather than turning it into a generic template. Use generous spacing, restrained warm accents, clear hierarchy, and a consistent image frame. On auth pages, pair a concise brand/story panel with an uncluttered form; prioritize form completion and maintain contrast, visible focus, and legible validation states.
