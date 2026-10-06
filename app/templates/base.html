@@ -6,7 +6,7 @@
     <title>{{ tr('Guitar Marketplace') }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="{% if request.endpoint == 'home' %}home-page{% endif %}">
+<body class="{% if request.endpoint == 'home' %}home-page{% elif request.endpoint in ('auth.login', 'auth.register') %}auth-page{% endif %}">
     <header class="topbar">
         <div class="brand"><a href="{{ url_for('home') }}">{{ tr('Guitar Marketplace') }}</a></div>
         <nav aria-label="{{ tr('Main navigation') }}">

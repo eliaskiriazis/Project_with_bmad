@@ -1,14 +1,23 @@
 ﻿{% extends 'base.html' %}
 {% block content %}
-<section class="wrap auth-box">
-    <h1>{{ tr('Register') }}</h1>
-    <form method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <label>{{ tr('First name') }}<input type="text" name="first_name" required></label>
-        <label>{{ tr('Last name') }}<input type="text" name="last_name" required></label>
-        <label>{{ tr('Email') }}<input type="email" name="email" required></label>
-        <label>{{ tr('Password') }}<input type="password" name="password" minlength="8" required></label>
-        <button type="submit">{{ tr('Register') }}</button>
-    </form>
+<section class="wrap auth-shell">
+    <div class="auth-layout">
+        <aside class="auth-story-panel">
+            <p class="eyebrow">{{ tr('The players’ marketplace') }}</p>
+            <h2>{{ tr('Good instruments. New stories.') }}</h2>
+            <p>{{ tr('A considered collection of electric guitars, chosen for the next chapter.') }}</p>
+        </aside>
+        <div class="auth-form-panel">
+            <h1>{{ tr('Register') }}</h1>
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <label>{{ tr('First name') }}<input type="text" name="first_name" autocomplete="given-name" required></label>
+                <label>{{ tr('Last name') }}<input type="text" name="last_name" autocomplete="family-name" required></label>
+                <label>{{ tr('Email') }}<input type="email" name="email" autocomplete="email" required></label>
+                <label>{{ tr('Password') }}<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+                <button type="submit">{{ tr('Register') }}</button>
+            </form>
+        </div>
+    </div>
 </section>
 {% endblock %}

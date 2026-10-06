@@ -208,7 +208,66 @@ def test_homepage_responsive_and_keyboard_focus_styles_are_available(client):
     assert stylesheet.status_code == 200
     assert b'@media (max-width: 560px)' in stylesheet.data
     assert b'.home-page :focus-visible' in stylesheet.data
+    assert b'.home-page .demo-card .card-image-link' in stylesheet.data
+    assert b'object-fit: contain' in stylesheet.data
     assert b'@media (prefers-reduced-motion: reduce)' in stylesheet.data
+
+
+def test_auth_pages_share_translated_premium_layout_and_preserve_forms(client):
+    page_expectations = {
+        '/login': {
+            'en': (b'Login', (b'name="email"', b'name="password"')),
+            'el': ('Σύνδεση'.encode(), (b'name="email"', b'name="password"')),
+        },
+        '/register': {
+            'en': (b'Register', (
+                b'name="first_name"', b'name="last_name"',
+                b'name="email"', b'name="password"',
+            )),
+            'el': ('Εγγραφή'.encode(), (
+                b'name="first_name"', b'name="last_name"',
+                b'name="email"', b'name="password"',
+            )),
+        },
+    }
+
+    for path, languages in page_expectations.items():
+        for language, (heading, fields) in languages.items():
+            response = client.get(f'{path}?lang={language}')
+            assert response.status_code == 200
+            assert b'<body class="auth-page">' in response.data
+            assert b'class="auth-layout"' in response.data
+            assert b'class="auth-story-panel"' in response.data
+            assert b'class="auth-form-panel"' in response.data
+            assert heading in response.data
+            story_title = (
+                'Η αγορά των μουσικών'.encode()
+                if language == 'el' else 'The players’ marketplace'.encode()
+            )
+            assert story_title in response.data
+            assert all(field in response.data for field in fields)
+            assert b'name="csrf_token"' in response.data
+
+    stylesheet = client.get('/static/css/style.css')
+    assert b'.auth-layout' in stylesheet.data
+    assert b'.auth-form-panel :focus-visible' in stylesheet.data
+    assert b'.auth-page' in stylesheet.data
+    assert b'@media (max-width: 760px)' in stylesheet.data
+    assert b'grid-template-columns: 1fr' in stylesheet.data
+    assert b'@media (max-width: 640px)' in stylesheet.data
+    assert b'@media (prefers-reduced-motion: reduce)' in stylesheet.data
+
+    invalid_register = client.post('/register?lang=en', data={
+        'first_name': '', 'last_name': 'User',
+        'email': 'not-an-email', 'password': 'short',
+    })
+    assert invalid_register.status_code == 200
+    assert b'Please provide valid registration details.' in invalid_register.data
+    invalid_login = client.post(
+        '/login?lang=en', data={'email': 'missing@example.com', 'password': 'wrong'},
+    )
+    assert invalid_login.status_code == 200
+    assert b'Invalid email or password.' in invalid_login.data
 
 
 def test_demo_listing_detail_is_browse_only_and_searchable(client):
