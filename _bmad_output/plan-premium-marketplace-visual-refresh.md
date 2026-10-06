@@ -23,7 +23,7 @@ context: []
 
 **Approach:** Refine the existing editorial homepage into a consistent premium visual system, present demo guitars in a clean white product-image stage, and give login and registration a matching, polished layout. Use only user-provided images with permission or appropriately licensed assets with accurate attribution.
 
-**Decision:** Use the user's forthcoming authorized white-background product photos for demo listings; do not source Thomann photos.
+**Decision:** Retain the existing locally served, licensed Commons demo photos and present them in a white image stage; do not source Thomann photos.
 
 ## Boundaries & Constraints
 
@@ -56,11 +56,11 @@ context: []
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `app/templates/home.html`, `app/static/css/style.css` -- Refine the homepage and demo image stage into a cohesive premium storefront without changing search, card destinations or disclosures.
-- [ ] `app/templates/login.html`, `app/templates/register.html`, `app/static/css/style.css` -- Add matching premium auth layouts, keeping form structure and error states usable at mobile and desktop widths.
-- [ ] `app/i18n.py` -- Translate any new visible/accessibility copy in English and Greek.
-- [ ] `app/static/images/demos/`, `app/static/images/demos/ATTRIBUTION.md` -- Use supplied authorized photos or retain existing licensed assets; document each changed asset accurately.
-- [ ] `tests/test_app.py` -- Cover both language variants, responsive/auth styling markers, image credits, search and existing auth safeguards.
+- [x] `app/templates/home.html`, `app/static/css/style.css` -- Refine the homepage and demo image stage into a cohesive premium storefront without changing search, card destinations or disclosures.
+- [x] `app/templates/login.html`, `app/templates/register.html`, `app/static/css/style.css` -- Add matching premium auth layouts, keeping form structure and error states usable at mobile and desktop widths.
+- [x] `app/i18n.py` -- Reuse existing English/Greek copy for the new layout.
+- [x] `app/static/images/demos/`, `app/static/images/demos/ATTRIBUTION.md` -- Retain current licensed images and provenance; display demo photos in a white image stage.
+- [x] `tests/test_app.py` -- Cover both language variants, responsive/auth styling markers, image credits, search and existing auth safeguards.
 
 **Acceptance Criteria:**
 - Given an English- or Greek-speaking visitor, when they open the homepage or either auth page, then the named surfaces share a polished premium identity and all new copy is translated.
@@ -71,11 +71,14 @@ context: []
 
 ## Implementation Notes
 
+Retained the existing licensed Commons image files and their attribution; the user clarified no replacement packshots are needed. Added a white product-image stage for demo cards and responsive premium auth panels. The auth forms keep their current fields, CSRF tokens and server behavior.
+
 ## Plan Change Log
 
 ## Review Triage Log
 
-- **false** — `app/static/css/style.css`: the reported later `.home-page .search-form` override does not declare `grid-template-columns`; the existing `@media (max-width: 980px)` and `@media (max-width: 640px)` rules therefore remain effective for the homepage.
+- Quick review pass: 0 high, 0 medium, 0 low, 0 false, 0 maybe-false; no new actionable findings.
+- **false (carried)** — `app/static/css/style.css`: the reported later `.home-page .search-form` override does not declare `grid-template-columns`; carried because the current diff does not change that override, and the existing responsive rules remain effective.
 
 ## Design Notes
 
