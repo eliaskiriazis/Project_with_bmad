@@ -6,6 +6,9 @@ TRANSLATIONS = {
     'en': {
         'Guitar Marketplace': 'Guitar Marketplace', 'Browse guitars': 'Browse guitars',
         'The players’ marketplace': 'The players’ marketplace',
+        'Main navigation': 'Main navigation',
+        'Search guitars': 'Search guitars',
+        'Close-up of an electric guitar': 'Close-up of an electric guitar',
         'Find your next sound.': 'Find your next sound.',
         'A considered collection of electric guitars, chosen for the next chapter.':
             'A considered collection of electric guitars, chosen for the next chapter.',
@@ -114,6 +117,9 @@ TRANSLATIONS = {
     'el': {
         'Guitar Marketplace': 'Αγοραπωλησίες Κιθαρών', 'Browse guitars': 'Αναζήτηση κιθαρών',
         'The players’ marketplace': 'Η αγορά των μουσικών',
+        'Main navigation': 'Κύρια πλοήγηση',
+        'Search guitars': 'Αναζήτηση κιθαρών',
+        'Close-up of an electric guitar': 'Κοντινή φωτογραφία ηλεκτρικής κιθάρας',
         'Find your next sound.': 'Βρες τον επόμενο ήχο σου.',
         'A considered collection of electric guitars, chosen for the next chapter.':
             'Μια επιλεγμένη συλλογή ηλεκτρικών κιθαρών για την επόμενη μουσική σου διαδρομή.',

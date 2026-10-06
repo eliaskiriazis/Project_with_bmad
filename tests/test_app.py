@@ -176,6 +176,10 @@ def test_public_search_and_greek_language(client):
     assert 'Αναζήτηση κιθαρών'.encode() in client.get('/').data
     filtered = client.get('/?brand=ibanez&condition=Excellent&max_price=2000&fulfillment=shipping')
     assert b'Ibanez RG' in filtered.data
+    empty = client.get('/?lang=en&brand=not-a-real-brand')
+    assert empty.status_code == 200
+    assert b'No listings found.' in empty.data
+    assert b'class="hero-visual"' in empty.data
 
 
 def test_homepage_shows_six_browse_only_demo_guitars_in_both_languages(client):
@@ -184,6 +188,10 @@ def test_homepage_shows_six_browse_only_demo_guitars_in_both_languages(client):
     assert english.data.count(b'class="card demo-card"') == 6
     assert english.data.count(b'Demo only') == 6
     assert english.data.count(b'<img ') >= 6
+    assert b'class="hero-visual"' in english.data
+    assert b'guitar-detail-hero.jpg' in english.data
+    assert b'thomann.com' not in english.data.lower()
+    assert b'aria-label="Main navigation"' in english.data
     assert b'/demo-listings/ibanez-rg3250mz' in english.data
     assert b'/demo-listings/jackson-dinky' in english.data
     assert b'ATTRIBUTION.md' in english.data
@@ -192,6 +200,15 @@ def test_homepage_shows_six_browse_only_demo_guitars_in_both_languages(client):
     assert greek.status_code == 200
     assert greek.data.count('Μόνο για επίδειξη'.encode()) == 6
     assert 'Άριστη'.encode() in greek.data
+    assert 'Κοντινή φωτογραφία ηλεκτρικής κιθάρας'.encode() in greek.data
+
+
+def test_homepage_responsive_and_keyboard_focus_styles_are_available(client):
+    stylesheet = client.get('/static/css/style.css')
+    assert stylesheet.status_code == 200
+    assert b'@media (max-width: 560px)' in stylesheet.data
+    assert b'.home-page :focus-visible' in stylesheet.data
+    assert b'@media (prefers-reduced-motion: reduce)' in stylesheet.data
 
 
 def test_demo_listing_detail_is_browse_only_and_searchable(client):
@@ -206,6 +223,7 @@ def test_demo_listing_detail_is_browse_only_and_searchable(client):
     assert 'Άριστη'.encode() in greek_detail.data
     credits = client.get('/static/images/demos/ATTRIBUTION.md')
     assert credits.status_code == 200
+    assert b'CC BY 2.0' in credits.data
     assert b'CC BY-SA 4.0' in credits.data
 
     filtered = client.get('/?brand=ESP')

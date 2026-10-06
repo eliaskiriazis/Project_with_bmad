@@ -6,10 +6,10 @@
     <title>{{ tr('Guitar Marketplace') }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="{% if request.endpoint == 'home' %}home-page{% endif %}">
     <header class="topbar">
         <div class="brand"><a href="{{ url_for('home') }}">{{ tr('Guitar Marketplace') }}</a></div>
-        <nav>
+        <nav aria-label="{{ tr('Main navigation') }}">
             <a href="{{ url_for('home') }}">{{ tr('Browse') }}</a>
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('listings.sell_listing') }}">{{ tr('Sell') }}</a>

@@ -7,6 +7,7 @@ source pages contain full license and author details.
 
 | Local file | Wikimedia Commons source | Creator | License |
 | --- | --- | --- | --- |
+| `guitar-detail-hero.jpg` | [Black electric guitar placed on a wooden surface with colorful playground in the background on a sunny day](https://commons.wikimedia.org/wiki/File:Black_electric_guitar_placed_on_a_wooden_surface_with_colorful_playground_in_the_background_on_a_sunny_day.jpg) | Shixart1985 | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
 | `ibanez-rg3250.jpg` | [A 2012 Ibanez RG3250MZ.jpg](https://commons.wikimedia.org/wiki/File:A_2012_Ibanez_RG3250MZ.jpg) | Yousef Abdul-Husain | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | `jackson-dinky.jpg` | [JacksonDinky.jpg](https://commons.wikimedia.org/wiki/File:JacksonDinky.jpg) | Styroks | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | `esp-iron-cross.jpg` | [ESP Iron Cross James Hetfield 2014 Electric Guitar w case (1).JPG](https://commons.wikimedia.org/wiki/File:ESP_Iron_Cross_James_Hetfield_2014_Electric_Guitar_w_case_(1).JPG) | 6-StringGuitars | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
